@@ -7,7 +7,7 @@ import pymorphy2
 import random
 from PyQt5 import uic
 import sqlite3
-from DBSample import db
+from DBSample import DataBase
 
 SIZE_FIELD = 15
 
@@ -30,7 +30,7 @@ class Button(QPushButton):
         dropAction = drag.exec_(Qt.MoveAction)
 
 
-class MainWindow(QMainWindow, ):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('main.ui', self)  # Загружаем дизайн
@@ -402,7 +402,7 @@ class MainWindow(QMainWindow, ):
             self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #c6c6ec}')
 
     def statistic(self):
-        # bd.show()
+        bd.show()
         self.hide()
 
     def closeEvent(self, event):
@@ -415,4 +415,6 @@ class MainWindow(QMainWindow, ):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_window = MainWindow()
+    main_window.show()
+    db = DataBase(main_window)
     sys.exit(app.exec())

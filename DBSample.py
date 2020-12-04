@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5 import uic
 import sqlite3
-from main import main_window
+
 
 
 class DataBase(QMainWindow):
-    def __init__(self):
+    def __init__(self, main_window):
         super().__init__()
+        self.main_window = main_window
         self.show()
         uic.loadUi('filtering.ui', self)
         self.con = sqlite3.connect("scrabble.db")
@@ -20,7 +21,7 @@ class DataBase(QMainWindow):
         self.btn_back.clicked.connect(self.back)
 
     def back(self):
-        # .show()
+        self.main_window.show()
         self.hide()
 
     def fill_table(self, result):
@@ -54,5 +55,3 @@ class DataBase(QMainWindow):
         main_window.game_over()
         self.con.close()
 
-
-db = DataBase()
