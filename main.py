@@ -48,7 +48,6 @@ class MainWindow(QMainWindow):
                                         'Ш': [1, 10], 'Щ': [1, 10], 'Ъ': [1, 10], 'Ы': [2, 5],
                                         'Ь': [2, 5], 'Э': [1, 10], 'Ю': [1, 10],
                                         'Я': [3, 3]}  # Строение словаря: 'буква': [количество буквы, цена]
-        # self.count_player = 0
         self.setGeometry(200, 30, 800, 600)
         self.btn_check.clicked.connect(self.check)
         self.opening_words_focused = False
@@ -282,7 +281,7 @@ class MainWindow(QMainWindow):
                 error = 1
             if error == 0:
                 new_word = ''
-                if self.opening_words_focused is False:
+                if self.opening_words_focused is False and len(self.new_word) != 1:
                     for el in self.new_word:
                         new_word += el[2]
                 else:
@@ -402,7 +401,7 @@ class MainWindow(QMainWindow):
             self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #c6c6ec}')
 
     def statistic(self):
-        bd.show()
+        db.show()
         self.hide()
 
     def closeEvent(self, event):
@@ -417,4 +416,5 @@ if __name__ == '__main__':
     main_window = MainWindow()
     main_window.show()
     db = DataBase(main_window)
+    db.hide()
     sys.exit(app.exec())

@@ -3,7 +3,6 @@ from PyQt5 import uic
 import sqlite3
 
 
-
 class DataBase(QMainWindow):
     def __init__(self, main_window):
         super().__init__()
@@ -51,7 +50,6 @@ class DataBase(QMainWindow):
         self.fill_table(result)
 
     def closeEvent(self, event):
-        main_window.unexpected_interrupts = 1
-        main_window.game_over()
+        self.main_window.unexpected_interrupts = 1
+        self.main_window.game_over()
         self.con.close()
-
