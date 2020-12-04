@@ -201,7 +201,8 @@ class MainWindow(QMainWindow):
             self.btn_choice[self.i_btn_choice].setEnabled(False)
             self.all_letters_to_replace.append(self.i_btn_choice)
             self.btn_check.setEnabled(False)
-        elif self.replacemen_begin == 0 and 10 <= position.y() <= SIZE_FIELD * 30 + 10 and 10 <= position.x() <= SIZE_FIELD * 30 + 10:
+        elif self.replacemen_begin == 0 and 10 <= position.y() <= SIZE_FIELD * 35 + 10 \
+                and 10 <= position.x() <= SIZE_FIELD * 35 + 10:
             self.skipping_move = 0
             for i in range(SIZE_FIELD):
                 if self.coords[0][i][0] <= position.x() <= self.coords[0][i][0] + 50:
@@ -272,6 +273,7 @@ class MainWindow(QMainWindow):
         con.close()
 
     def check(self):
+        new_word = ''
         word_analysis = 0
         if len(self.new_word) > 0:
             self.new_word_all_letters = self.new_word
@@ -289,10 +291,25 @@ class MainWindow(QMainWindow):
             if error == 0:
                 new_word = ''
                 if self.opening_words_focused is False and len(self.new_word) != 1:
-                    print(self.new_word)
+                    flag_x, flag_y = 1, 1
                     if len(self.new_word) == self.new_word[-1][0] - self.new_word[0][0] + 1:
                         for el in self.new_word:
+                            if el[0] == SIZE_FIELD // 2:
+                                flag_x = 0
+                            if el[1] == SIZE_FIELD // 2:
+                                flag_y = 0
                             new_word += el[2]
+                        if flag_x or flag_y:
+                            el = 0
+                            new_word2 = []
+                            for i in range(SIZE_FIELD // 2 - len(self.new_word) // 2, SIZE_FIELD // 2 + len(self.new_word) // 2 + 1):
+                                self.field[self.new_word[el][1]][self.new_word[el][0]].setText('')
+                                new_word2.append((i, 7, self.new_word[el][2], self.new_word[el][3]))
+                                self.field[7][i].setText(self.new_word[el][2])
+                                el += 1
+                            self.new_word = new_word2.copy()
+                            new_word2.clear()
+
                     else:
                         error = 1
                 else:
@@ -324,12 +341,12 @@ class MainWindow(QMainWindow):
                                 new_word += self.field[self.new_word[0][1]][i].text()
                     if new_word2:
                         self.new_word_all_letters = new_word2
-                analysis = pymorphy2.MorphAnalyzer().parse(new_word)
-                for el in analysis:
-                    if el.tag.POS == 'NOUN' and 'nomn' in el.tag and \
-                            (el.tag.number == 'sing') and 'Name' not in el.tag:
-                        word_analysis = 1
-                        break
+            analysis = pymorphy2.MorphAnalyzer().parse(new_word)
+            for el in analysis:
+                if el.tag.POS == 'NOUN' and 'nomn' in el.tag and \
+                        (el.tag.number == 'sing') and 'Name' not in el.tag:
+                    word_analysis = 1
+                    break
             if word_analysis:
                 self.scoring_points()
             elif word_analysis == 0 or error:
