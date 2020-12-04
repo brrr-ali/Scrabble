@@ -38,6 +38,7 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        self.replacemen_begin = 0
         self.statistics.clicked.connect(self.statistic)
         self.count_letters_and_price = {'А': [10, 1], 'Б': [3, 3], 'В': [5, 2], 'Г': [3, 3],
                                         'Д': [5, 2], 'Е': [9, 1], 'Ж': [2, 5], 'З': [2, 5],
@@ -115,7 +116,6 @@ class MainWindow(QMainWindow):
         x = 10
         # создаем передвижимые кнопки
         for i in range(7):
-            name = f"btn{i}"
             self.name = Button('', self)
             self.name.move(x, 540)
             self.name.resize(35, 35)
@@ -156,7 +156,7 @@ class MainWindow(QMainWindow):
         self.players = []
 
         self.btn_check.setEnabled(True)
-        # self.btn_replaced_letters.setEnabled(True)
+        self.btn_replaced_letters.setEnabled(True)
         self.replaced_letters.setEnabled(True)
         for i in range(self.count_player):
             eval(f"self.player{i + 1}").setText(eval(f"self.name{i + 1}.text()") + '\n 0 баллов')
@@ -197,10 +197,11 @@ class MainWindow(QMainWindow):
                 self.replaced_letters.height() and \
                 self.replaced_letters.x() <= position.x() <= \
                 self.replaced_letters.x() + self.replaced_letters.width():
+            self.replacemen_begin = 1
             self.btn_choice[self.i_btn_choice].setEnabled(False)
             self.all_letters_to_replace.append(self.i_btn_choice)
             self.btn_check.setEnabled(False)
-        else:
+        elif self.replacemen_begin == 0 and 10 <= position.y() <= SIZE_FIELD * 30 + 10 and 10 <= position.x() <= SIZE_FIELD * 30 + 10:
             self.skipping_move = 0
             for i in range(SIZE_FIELD):
                 if self.coords[0][i][0] <= position.x() <= self.coords[0][i][0] + 50:
@@ -233,11 +234,17 @@ class MainWindow(QMainWindow):
                     maxim = el[1]
                     maxim_name.append([el[0].text().split('\n')[0], el[1]])
             if len(maxim_name) == self.count_player:
-                self.error.setText('Игра окончена! Ничья!')
+                self.statusBar().showMessage('Игра окончена! Ничья!')
             else:
-                self.error.setText('Игра окончена! Наибольшее количество баллов набрали: '
-                                   + ', '.join(el[0] for el in maxim_name))
+                self.statusBar().showMessage('Игра окончена! Наибольшее количество баллов набрали: ' +
+                                             ', '.join(el[0] for el in maxim_name))
+            self.statusBar().setStyleSheet("background-color:orange;")
             self.add_winner_in_bd(maxim_name)
+            self.btn_check.hide()
+            self.btn_replaced_letters.hide()
+            self.replaced_letters.hide()
+            for el in self.btn_choice:
+                el.hide()
             return True
         return False
 
@@ -282,8 +289,12 @@ class MainWindow(QMainWindow):
             if error == 0:
                 new_word = ''
                 if self.opening_words_focused is False and len(self.new_word) != 1:
-                    for el in self.new_word:
-                        new_word += el[2]
+                    print(self.new_word)
+                    if len(self.new_word) == self.new_word[-1][0] - self.new_word[0][0] + 1:
+                        for el in self.new_word:
+                            new_word += el[2]
+                    else:
+                        error = 1
                 else:
                     if self.new_word[0][0] == self.new_word[-1][0]:
                         x, y_lower, y_upper = self.new_word[0][0], self.new_word[-1][1], self.new_word[0][1]
@@ -295,7 +306,7 @@ class MainWindow(QMainWindow):
                             error = 1
                         else:
                             for i in range(y_upper + 1, y_lower):
-                                new_word2.append((self.new_word[1][0], i, self.field[i][x].text(), 0))
+                                new_word2.append((self.new_word[0][0], i, self.field[i][x].text(), 0))
                                 new_word += self.field[i][x].text()
                     elif self.new_word[0][1] == self.new_word[-1][1]:
                         y, x_lower, x_upper = self.new_word[0][1], self.new_word[-1][0], self.new_word[0][0]
@@ -329,7 +340,9 @@ class MainWindow(QMainWindow):
                     if el[2] in self.count_letters_and_price.keys():
                         self.count_letters_and_price[el[2]][0] += 1
                         self.field[el[1]][el[0]].setText('')
-                self.error.setText('Не удовлетворяет требованиям к новым словам, попробуйте снова')
+                self.statusBar().showMessage('Не удовлетворяет требованиям к новым словам, попробуйте снова')
+                self.statusBar().setStyleSheet("background-color:red;")
+                # self.error.setText('Не удовлетворяет требованиям к новым словам, попробуйте снова')
             self.new_word_all_letters.clear()
             self.new_word.clear()
 
@@ -361,6 +374,7 @@ class MainWindow(QMainWindow):
         self.another_player_move()
 
     def changing_letters(self):
+        self.replacemen_begin = 0
         self.skipping_move += 1
         s = [self.btn_choice[i].text() for i in self.all_letters_to_replace]
         for changing_letter in self.all_letters_to_replace:
@@ -377,7 +391,10 @@ class MainWindow(QMainWindow):
         self.btn_check.setEnabled(True)
 
     def another_player_move(self):
-        self.error.setText('')
+        # self.error.setText('')
+        self.statusBar().setStyleSheet("background-color:white;")
+        self.statusBar().showMessage('')
+
         self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #f0f0f0}')
         if self.game_over() is False:
             i = 0
