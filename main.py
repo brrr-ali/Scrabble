@@ -5,10 +5,9 @@ from PyQt5.QtCore import Qt, QMimeData
 from PyQt5.QtGui import QDrag
 import pymorphy2
 import random
-from PyQt5 import uic
 import sqlite3
 from DBSample import DataBase
-
+from design import Ui_MainWindow
 SIZE_FIELD = 15
 
 
@@ -30,11 +29,10 @@ class Button(QPushButton):
         dropAction = drag.exec_(Qt.MoveAction)
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)  # Загружаем дизайн
-
+        self.setupUi(self)  # Загружаем дизайн
         self.initUI()
 
     def initUI(self):
