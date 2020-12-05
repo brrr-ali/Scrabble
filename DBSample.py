@@ -10,6 +10,16 @@ class DataBase(QMainWindow, Ui_MainWindow):
         self.main_window = main_window
         self.show()
         self.con = sqlite3.connect("scrabble.db")
+        cur = self.con.cursor()
+        cur.execute("""CREATE TABLE IF NOT EXISTS all_games_played(
+            id INTEGER PRIMARY KEY,
+            name_winner TEXT,
+            points INTEGER);""")
+        cur.execute("""CREATE TABLE IF NOT EXISTS participants(
+                    id INTEGER PRIMARY KEY,
+                    name TEXT,
+                    points TEXT);""")
+        self.con.commit()
         self.setStyleSheet('.QWidget {background-image: url(background_2.jpg);}')
         self.filter0.clicked.connect(self.filter)
         self.filter1.clicked.connect(self.filter)
@@ -55,12 +65,13 @@ class DataBase(QMainWindow, Ui_MainWindow):
         self.hide()
 
     def fill_table(self, result):
-        self.tableWidget.setColumnCount(len(result[0]))
-        self.tableWidget.setRowCount(len(result))
-        for i, row in enumerate(result):
-            for j, elem in enumerate(row):
-                self.tableWidget.setItem(
-                    i, j, QTableWidgetItem(str(elem)))
+        if len(result) > 0:
+            self.tableWidget.setColumnCount(len(result[0]))
+            self.tableWidget.setRowCount(len(result))
+            for i, row in enumerate(result):
+                for j, elem in enumerate(row):
+                    self.tableWidget.setItem(
+                        i, j, QTableWidgetItem(str(elem)))
 
     def closeEvent(self, event):
         self.main_window.unexpected_interrupts = 1

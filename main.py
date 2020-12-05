@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow
 from PyQt5.QtCore import Qt, QMimeData
 from PyQt5.QtGui import QDrag
 import pymorphy2
@@ -300,11 +300,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         if flag_x or flag_y:
                             el = 0
                             new_word2 = []
-                            for i in range(SIZE_FIELD // 2 - len(self.new_word) // 2, SIZE_FIELD // 2 + len(self.new_word) // 2 + 1):
-                                self.field[self.new_word[el][1]][self.new_word[el][0]].setText('')
-                                new_word2.append((i, 7, self.new_word[el][2], self.new_word[el][3]))
-                                self.field[7][i].setText(self.new_word[el][2])
-                                el += 1
+                            for i in range(SIZE_FIELD // 2 - len(self.new_word) // 2,
+                                           SIZE_FIELD // 2 + len(self.new_word) // 2 + 1):
+                                if el < len(self.new_word):
+                                    self.field[self.new_word[el][1]][self.new_word[el][0]].setText('')
+                                    new_word2.append((i, 7, self.new_word[el][2], self.new_word[el][3]))
+                                    self.field[7][i].setText(self.new_word[el][2])
+                                    el += 1
                             self.new_word = new_word2.copy()
                             new_word2.clear()
 
@@ -357,7 +359,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         self.field[el[1]][el[0]].setText('')
                 self.statusBar().showMessage('Не удовлетворяет требованиям к новым словам, попробуйте снова')
                 self.statusBar().setStyleSheet("background-color:red;")
-                # self.error.setText('Не удовлетворяет требованиям к новым словам, попробуйте снова')
             self.new_word_all_letters.clear()
             self.new_word.clear()
 
@@ -406,7 +407,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_check.setEnabled(True)
 
     def another_player_move(self):
-        # self.error.setText('')
         self.statusBar().setStyleSheet("background-color:white;")
         self.statusBar().showMessage('')
 
