@@ -309,7 +309,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                     el += 1
                             self.new_word = new_word2.copy()
                             new_word2.clear()
-
                     else:
                         error = 1
                 else:
@@ -319,35 +318,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                             y_lower += 1
                         while self.field[y_upper][x].text() != '' and y_upper >= 0:
                             y_upper -= 1
-                        if y_lower - y_upper - 1 == len(self.new_word):
-                            error = 1
-                        else:
-                            for i in range(y_upper + 1, y_lower):
+                        for i in range(y_upper + 1, y_lower):
+                            if self.field[i][x].text() != '':
                                 new_word2.append((self.new_word[0][0], i, self.field[i][x].text(), 0))
                                 new_word += self.field[i][x].text()
+                        if new_word2[-1][1] - new_word2[0][1] != len(new_word2) - 1 or y_lower - y_upper - 1 == len(self.new_word):
+                            error = 1
                     elif self.new_word[0][1] == self.new_word[-1][1]:
                         y, x_lower, x_upper = self.new_word[0][1], self.new_word[-1][0], self.new_word[0][0]
                         while self.field[y][x_lower].text() != '' and x_lower < SIZE_FIELD:
                             x_lower += 1
                         while self.field[y][x_upper].text() != '' and x_upper >= 0:
                             x_upper -= 1
-                        if x_lower - x_upper - 1 == len(self.new_word):
-                            error = 1
-                        else:
-                            new_word2 = []
-                            for i in range(x_upper - 1, x_lower):
+                        new_word2 = []
+                        for i in range(x_upper - 1, x_lower):
+                            if self.field[self.new_word[0][1]][i].text() != '':
                                 new_word2.append(
                                     (i, self.new_word[0][1], self.field[self.new_word[0][1]][i].text(), 0))
                                 new_word += self.field[self.new_word[0][1]][i].text()
+                        if new_word2[-1][0] - new_word2[0][0] != len(new_word2) - 1 or x_lower - x_upper - 1 == len(self.new_word):
+                            error = 1
                     if new_word2:
                         self.new_word_all_letters = new_word2
-            analysis = pymorphy2.MorphAnalyzer().parse(new_word)
-            for el in analysis:
-                if el.tag.POS == 'NOUN' and 'nomn' in el.tag and \
-                        (el.tag.number == 'sing') and 'Name' not in el.tag:
-                    word_analysis = 1
-                    break
-            if word_analysis:
+            analysis = pymorphy2.MorphAnalyzer().parse(new_word)[:2]
+            if pymorphy2.MorphAnalyzer().word_is_known(new_word):
+                for el in analysis:
+                    if el.tag.POS == 'NOUN' and 'nomn' in el.tag and \
+                            (el.tag.number == 'sing') and 'Name' not in el.tag:
+                        word_analysis = 1
+                        break
+            if word_analysis and error != 1:
                 self.scoring_points()
             elif word_analysis == 0 or error:
                 for el in self.btn_choice:
@@ -409,7 +409,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def another_player_move(self):
         self.statusBar().setStyleSheet("background-color:white;")
         self.statusBar().showMessage('')
-
         self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #f0f0f0}')
         if self.game_over() is False:
             i = 0
