@@ -57,6 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.queue = 0
         self.skipping_move = 0
         self.unexpected_interrupts = 0
+        self.change_bd = 0
         for i in range(4):
             eval(f'self.player{i + 1}.hide()')
         x, y = 10, 10
@@ -154,10 +155,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for el in self.btn_choice:
             el.show()
         self.players = []
-
         self.btn_check.setEnabled(True)
         self.btn_replaced_letters.setEnabled(True)
         self.replaced_letters.setEnabled(True)
+        # проходимся по всем игрокам и генерируем для каждого буквы
         for i in range(self.count_player):
             eval(f"self.player{i + 1}").setText(eval(f"self.name{i + 1}.text()") + '\n 0 баллов')
             s = []
@@ -178,6 +179,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             'Осталось букв: ' + str(self.print_number_of_remaining_letters()))
         self.delete_used_letters()
         self.skipping_move = 0
+        # скрываем регистрационное поле
         self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #c6c6ec}')
         for i in range(4):
             eval(f'self.name{i + 1}.hide()')
@@ -220,6 +222,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def print_number_of_remaining_letters(self):
         count = 0
+        # считаем количество оставшихся букв
         for value in self.count_letters_and_price.values():
             count += value[0]
         return count
@@ -227,8 +230,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def game_over(self):
         if self.print_number_of_remaining_letters() == 0 or \
                 self.skipping_move == self.count_player * 2 or self.unexpected_interrupts:
-            for el in self.players:
-                self.add_or_change_db(el[0].text().split('\n')[0], el[1])
+            if self.change_bd == 0:
+                self.change_bd = 1
+                for el in self.players:
+                    self.add_or_change_db(el[0].text().split('\n')[0], el[1])
+
+
             maxim = 0
             maxim_name = []
             self.players.sort(key=lambda x: x[1], reverse=True)
@@ -271,6 +278,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             cur.execute("INSERT INTO participants (name, points) values (?, ?)", (name, point))
             db.comboBox.addItem(name)
+
         con.commit()
         con.close()
 
