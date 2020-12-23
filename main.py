@@ -8,6 +8,7 @@ import random
 import sqlite3
 from DBSample import DataBase
 from design import Ui_MainWindow
+
 SIZE_FIELD = 15
 
 
@@ -143,7 +144,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         i_btn_choice = 0
         # проходим по всем буквам и пытаемся узнать какую перетащили
         for i in range(7):
-            if self.btn_choice[i].x() <= coord_x_btn_alphabet <= self.btn_choice[i].x() + self.btn_choice[i].width():
+            if self.btn_choice[i].x() <= coord_x_btn_alphabet <= self.btn_choice[i].x() \
+                    + self.btn_choice[i].width():
                 i_btn_choice = i
                 break
         self.i_btn_choice = i_btn_choice
@@ -172,7 +174,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.count_letters_and_price[self.players[self.queue][2][i]][1]))
             i += 1
         self.all_letters_to_replace = []
-        self.number_of_remaining_letters.setText('Осталось букв: ' + str(self.print_number_of_remaining_letters()))
+        self.number_of_remaining_letters.setText(
+            'Осталось букв: ' + str(self.print_number_of_remaining_letters()))
         self.delete_used_letters()
         self.skipping_move = 0
         self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #c6c6ec}')
@@ -208,7 +211,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if self.coords[i][0][1] <= position.y() <= self.coords[i][0][1] + 50:
                     y1 = i
             if self.field[y1][x1].text() == '':
-                self.new_word.append((x1, y1, self.players[self.queue][2][self.i_btn_choice], self.i_btn_choice))
+                self.new_word.append(
+                    (x1, y1, self.players[self.queue][2][self.i_btn_choice], self.i_btn_choice))
                 self.field[y1][x1].setText(self.players[self.queue][2][self.i_btn_choice])
                 self.btn_choice[self.i_btn_choice].setEnabled(False)
             e.setDropAction(Qt.MoveAction)
@@ -322,11 +326,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                             if self.field[i][x].text() != '':
                                 new_word2.append((self.new_word[0][0], i, self.field[i][x].text(), 0))
                                 new_word += self.field[i][x].text()
-                        if new_word2[-1][1] - new_word2[0][1] != len(new_word2) - 1 or y_lower - y_upper - 1 == len(self.new_word):
+                        if new_word2[-1][1] - new_word2[0][1] != len(
+                                new_word2) - 1 or y_lower - y_upper - 1 == len(self.new_word):
                             error = 1
                     elif self.new_word[0][1] == self.new_word[-1][1]:
                         y, x_lower, x_upper = self.new_word[0][1], self.new_word[-1][0], self.new_word[0][0]
-                        while self.field[y][x_lower].text() != '' and x_lower < SIZE_FIELD:
+                        while x_lower < SIZE_FIELD and self.field[y][x_lower].text() != '':
                             x_lower += 1
                         while self.field[y][x_upper].text() != '' and x_upper >= 0:
                             x_upper -= 1
@@ -336,7 +341,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                 new_word2.append(
                                     (i, self.new_word[0][1], self.field[self.new_word[0][1]][i].text(), 0))
                                 new_word += self.field[self.new_word[0][1]][i].text()
-                        if new_word2[-1][0] - new_word2[0][0] != len(new_word2) - 1 or x_lower - x_upper - 1 == len(self.new_word):
+                        if new_word2[-1][0] - new_word2[0][0] != len(
+                                new_word2) - 1 or x_lower - x_upper - 1 == len(self.new_word):
                             error = 1
                     if new_word2:
                         self.new_word_all_letters = new_word2
@@ -428,7 +434,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 el.setText(self.players[self.queue][2][i] + '\n' + str(
                     self.count_letters_and_price[self.players[self.queue][2][i]][1]))
                 i += 1
-            self.number_of_remaining_letters.setText('Осталось букв: ' + str(self.print_number_of_remaining_letters()))
+            self.number_of_remaining_letters.setText(
+                'Осталось букв: ' + str(self.print_number_of_remaining_letters()))
             self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #c6c6ec}')
 
     def statistic(self):

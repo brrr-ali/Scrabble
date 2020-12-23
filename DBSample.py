@@ -26,7 +26,8 @@ class DataBase(QMainWindow, Ui_MainWindow):
         self.btn_back.clicked.connect(self.back)
         self.queue = 0
         cur = self.con.cursor()
-        self.comboBox.addItems(['все', *[item[0] for item in cur.execute("SELECT name FROM participants").fetchall()]])
+        self.comboBox.addItems(
+            ['все', *[item[0] for item in cur.execute("SELECT name FROM participants").fetchall()]])
         result = cur.execute("""SELECT * FROM participants""").fetchall()
         self.fill_table(result)
         self.btn_search.clicked.connect(self.search)
@@ -52,7 +53,8 @@ class DataBase(QMainWindow, Ui_MainWindow):
         self.comboBox.clear()
         if self.sender().text() == "по участникам":
             self.queue = 0
-            self.comboBox.addItems(['все', *[item[0] for item in cur.execute("SELECT name FROM participants").fetchall()]])
+            self.comboBox.addItems(
+                ['все', *[item[0] for item in cur.execute("SELECT name FROM participants").fetchall()]])
             result = cur.execute("""SELECT * FROM participants""").fetchall()
         else:
             result = cur.execute('SELECT * FROM all_games_played ORDER BY id DESC').fetchall()
