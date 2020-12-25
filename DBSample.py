@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 import sqlite3
-from filtering import Ui_MainWindow
+from design.filtering import Ui_MainWindow
 
 
 class DataBase(QMainWindow, Ui_MainWindow):
@@ -20,7 +20,7 @@ class DataBase(QMainWindow, Ui_MainWindow):
                     name TEXT,
                     points TEXT);""")
         self.con.commit()
-        self.setStyleSheet('.QWidget {background-image: url(background_2.jpg);}')
+        self.setStyleSheet('.QWidget {background-image: url(design/background_2.jpg);}')
         self.filter0.clicked.connect(self.filter)
         self.filter1.clicked.connect(self.filter)
         self.btn_back.clicked.connect(self.back)

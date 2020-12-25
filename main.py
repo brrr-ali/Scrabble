@@ -7,7 +7,7 @@ import pymorphy2
 import random
 import sqlite3
 from DBSample import DataBase
-from design import Ui_MainWindow
+from design.design import Ui_MainWindow
 
 SIZE_FIELD = 15
 
