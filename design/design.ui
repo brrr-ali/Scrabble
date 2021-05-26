@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>628</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -20,354 +26,246 @@
    <string>Эрудит</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btn_check">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>265</x>
-      <y>540</y>
-      <width>271</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Проверить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_replaced_letters">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>540</y>
-      <width>251</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Заменить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="replaced_letters">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>420</y>
-      <width>251</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Скинте сюда буквы, 
- которые нужно заменить</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="number_of_remaining_letters">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>390</y>
-      <width>111</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Осталось букв: 131</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="error">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>860</y>
-      <width>500</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_1">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>40</y>
-      <width>71</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Игрок 1</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>0</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Сколько человек будут играть?
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0" rowspan="9">
+     <layout class="QGridLayout" name="grid_field"/>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLabel" name="error">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" rowspan="9" colspan="2">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item row="12" column="1">
+       <widget class="QLabel" name="number_of_remaining_letters">
+        <property name="text">
+         <string>Осталось букв: 131</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="player2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="QPushButton" name="btn_replaced_letters">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Заменить</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="QPushButton" name="btn_check">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Проверить</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QPushButton" name="statistics">
+        <property name="text">
+         <string>Статистика</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <layout class="QFormLayout" name="formLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
+        </property>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="checkBox_1">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Игрок 1</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="name1"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Игрок 2</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="name2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+          <property name="inputMethodHints">
+           <set>Qt::ImhNone</set>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="dragEnabled">
+           <bool>false</bool>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>Игрок 3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="name3"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QCheckBox" name="checkBox_4">
+          <property name="text">
+           <string>Игрок 4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="name4"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="btn_remember">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Запомнить</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="6" column="1">
+       <widget class="QPushButton" name="player3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QPushButton" name="player4">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="player1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <property name="autoRepeat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Сколько человек будут играть?
  Представтесь</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="name1">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>40</y>
-      <width>120</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_2">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>70</y>
-      <width>61</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Игрок 2</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="name2">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>70</y>
-      <width>120</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
-    </property>
-    <property name="acceptDrops">
-     <bool>false</bool>
-    </property>
-    <property name="inputMethodHints">
-     <set>Qt::ImhNone</set>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="frame">
-     <bool>true</bool>
-    </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_3">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>100</y>
-      <width>71</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Игрок 3</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_4">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>130</y>
-      <width>61</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Игрок 4</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="name3">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>100</y>
-      <width>120</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="name4">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>130</y>
-      <width>120</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_remember">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>160</y>
-      <width>191</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Запомнить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="statistics">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>390</y>
-      <width>130</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Статистика</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="player1">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>10</y>
-      <width>250</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="statusTip">
-     <string/>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <property name="autoRepeat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="player2">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>100</y>
-      <width>250</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="player3">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>190</y>
-      <width>250</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="player4">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>280</y>
-      <width>250</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <zorder>player4</zorder>
-   <zorder>player3</zorder>
-   <zorder>player2</zorder>
-   <zorder>player1</zorder>
-   <zorder>btn_check</zorder>
-   <zorder>btn_replaced_letters</zorder>
-   <zorder>replaced_letters</zorder>
-   <zorder>number_of_remaining_letters</zorder>
-   <zorder>error</zorder>
-   <zorder>checkBox_1</zorder>
-   <zorder>label</zorder>
-   <zorder>name1</zorder>
-   <zorder>checkBox_2</zorder>
-   <zorder>name2</zorder>
-   <zorder>checkBox_3</zorder>
-   <zorder>checkBox_4</zorder>
-   <zorder>name3</zorder>
-   <zorder>name4</zorder>
-   <zorder>btn_remember</zorder>
-   <zorder>statistics</zorder>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
