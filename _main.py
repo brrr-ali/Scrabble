@@ -64,6 +64,8 @@ class Button(QPushButton):
 
     def dropEvent(self, e):
         if self.text() == '' and type(e.source()) == MovableButton:
+            main_window.replaced_letters.setEnabled(False)
+            main_window.btn_replaced_letters.setEnabled(False)
             self.setText(e.mimeData().text())
             e.source().setEnabled(False)
             e.setDropAction(Qt.MoveAction)
@@ -97,6 +99,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def initUI(self):
         self.btn_letters_of_new_words = []
+        self.words_used_in_the_game = []
         self.start_of_replacement = 0
         self.statistics.clicked.connect(self.statistic)
         self.price_letters = {'А': 1, 'Б': 3, 'В': 2, 'Г': 3, 'Д': 2, 'Е': 1, 'Ж': 5, 'З': 5,
@@ -191,6 +194,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def remember(self):
         for el in self.btn_choice:
             el.show()
+        if not (eval(f'self.checkBox_3.isChecked()')) and self.count_player == 3:
+            self.statusBar().showMessage(f'Игроки должны регестрироваться по порядку. '
+                                         f'Не оставляйте пустых мест. Попробуйте снова.')
+            self.statusBar().setStyleSheet("background-color:red;")
+            return
+        self.statusBar().setStyleSheet("background-color:white;")
+        self.statusBar().showMessage('')
         self.players = []
         self.btn_check.setEnabled(True)
         self.btn_replaced_letters.setEnabled(True)
@@ -220,7 +230,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             eval(f'self.name{i + 1}.hide()')
             eval(f'self.checkBox_{i + 1}.hide()')
         self.label.setText('')
-
         self.btn_remember.hide()
         for i in range(self.count_player):
             eval(f'self.player{i + 1}.show()')
@@ -281,10 +290,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def new_words(self):
         letters = []
         for i in range(len(self.btn_letters_of_new_words)):
-            position = self.grid_field.getItemPosition(self.grid_field.indexOf(self.btn_letters_of_new_words[i]))
-            self.field[position[0] - 1][position[1] - 1] = self.btn_letters_of_new_words[i].text().split('\n')[0]
+            position = self.grid_field.getItemPosition(
+                self.grid_field.indexOf(self.btn_letters_of_new_words[i]))
+            self.field[position[0] - 1][position[1] - 1] = \
+            self.btn_letters_of_new_words[i].text().split('\n')[0]
             letters.append(
-                (position[0] - 1, position[1] - 1, self.btn_letters_of_new_words[i].text().split('\n')[0]))
+                (position[0] - 1, position[1] - 1,
+                 self.btn_letters_of_new_words[i].text().split('\n')[0]))
         all_word = []
         words_buttons = []
         for el in letters:
@@ -346,7 +358,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.used_letters.clear()
 
     def check(self):
+        self.btn_replaced_letters.setEnabled(True)
+        self.replaced_letters.setEnabled(True)
         new_words, words_buttons = self.new_words()
+        if not len(new_words):
+            self.statusBar().showMessage(f'Слов не найдено. Попробуйте снова.')
+            self.statusBar().setStyleSheet("background-color:red;")
+            self.clear_field()
+            return
         if not self.first_word_created and self.field[SIZE_FIELD // 2][SIZE_FIELD // 2] == '':
             self.statusBar().showMessage(
                 f'Первое слово должно проходить через середину поля. Попробуйте снова.')
@@ -374,8 +393,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.statusBar().setStyleSheet("background-color:red;")
                 self.clear_field()
                 return
+            if new_words[i] in self.words_used_in_the_game:
+                self.statusBar().showMessage(f'Слово "{new_words[i]}" уже было! Попробуйте снова.')
+                self.statusBar().setStyleSheet("background-color:red;")
+                self.clear_field()
+                return
         for el in self.btn_letters_of_new_words:
             el.setEnabled(False)
+        self.words_used_in_the_game.extend(new_words)
         self.scoring_points(words_buttons)
         self.used_letters.clear()
         self.btn_letters_of_new_words.clear()
