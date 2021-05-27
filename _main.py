@@ -16,6 +16,7 @@ class MovableButton(QPushButton):
     # отвечает за буквы из которых игроки составляют слова
     def __init__(self, title, parent):
         super().__init__(title, parent)
+        self.setAcceptDrops(True)
 
     def mouseMoveEvent(self, e):
         mimeData = QMimeData()
@@ -24,6 +25,25 @@ class MovableButton(QPushButton):
         drag.setMimeData(mimeData)
         drag.setHotSpot(e.pos() - self.rect().topLeft())
         dropAction = drag.exec_(Qt.MoveAction)
+
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasFormat('text/plain'):
+            e.accept()
+        else:
+            e.ignore()
+
+    def dropEvent(self, e):
+        if type(e.source()) == Button and self.styleSheet()[31:-1] == '#c6c6ec' and \
+                self.text() == e.source().text():
+            self.setStyleSheet('QPushButton {background-color:"white"; color:"black"}')
+            e.source().setText('')
+            e.setDropAction(Qt.MoveAction)
+            e.accept()
+            main_window.used_letters.remove(self)
+            if not len(main_window.used_letters):
+                main_window.replaced_letters.setEnabled(True)
+                main_window.btn_replaced_letters.setEnabled(True)
+            main_window.btn_letters_of_new_words.remove(e.source())
 
 
 class ButtonToReplaceTheLetters(QPushButton):
@@ -41,11 +61,10 @@ class ButtonToReplaceTheLetters(QPushButton):
     def dropEvent(self, e):
         if type(e.source()) == MovableButton:
             main_window.start_of_replacement = 1
-            e.source().setEnabled(False)
+            e.source().setStyleSheet('QPushButton {background-color: #c6c6ec}')
             # в letters_to_replace хранятся кнопки
             main_window.letters_to_replace.append(e.source())
             main_window.btn_check.setEnabled(False)
-            e.source().setEnabled(False)
             e.setDropAction(Qt.MoveAction)
             e.accept()
 
@@ -67,7 +86,7 @@ class Button(QPushButton):
             main_window.replaced_letters.setEnabled(False)
             main_window.btn_replaced_letters.setEnabled(False)
             self.setText(e.mimeData().text())
-            e.source().setEnabled(False)
+            e.source().setStyleSheet('QPushButton {background-color: #c6c6ec}')
             e.setDropAction(Qt.MoveAction)
             e.accept()
             main_window.btn_letters_of_new_words.append(self)
@@ -134,37 +153,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # создаем поле
         for j in range(SIZE_FIELD):
             for i in range(SIZE_FIELD):
-                self.name = Button('', self)
-                self.name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                name = Button('', self)
+                name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
                 # раскрашиваем поле
                 if i == j or i + j == SIZE_FIELD - 1:
                     if i == 0 or i == SIZE_FIELD - 1:
-                        self.name.setStyleSheet('QPushButton {background-color: #c4544d}')
+                        name.setStyleSheet('QPushButton {background-color: #c4544d}')
                     elif 1 <= i <= 4 or 10 <= i <= 13:
-                        self.name.setStyleSheet('QPushButton {background-color: #4d4dc4}')
+                        name.setStyleSheet('QPushButton {background-color: #4d4dc4}')
                     elif i == 6 or i == 8:
-                        self.name.setStyleSheet('QPushButton {background-color: #6fcc45}')
+                        name.setStyleSheet('QPushButton {background-color: #6fcc45}')
                 elif i + j == 10 or i - j == 4:
                     if j == 1 or j == 9:
-                        self.name.setStyleSheet('QPushButton {background-color: #cfca42}')
+                        name.setStyleSheet('QPushButton {background-color: #cfca42}')
                     elif j == 2 or j == 3 or j == 7 or j == 8:
-                        self.name.setStyleSheet('QPushButton {background-color: #6fcc45}')
+                        name.setStyleSheet('QPushButton {background-color: #6fcc45}')
                 elif i + j == 18 or j - i == 4:
                     if j == 5 or j == 13:
-                        self.name.setStyleSheet('QPushButton {background-color: #cfca42}')
+                        name.setStyleSheet('QPushButton {background-color: #cfca42}')
                     elif j == 6 or j == 7 or j == 11 or j == 12:
-                        self.name.setStyleSheet('QPushButton {background-color: #6fcc45}')
+                        name.setStyleSheet('QPushButton {background-color: #6fcc45}')
                 elif i == 0 or i == SIZE_FIELD - 1:
                     if j == 3 or j == 11:
-                        self.name.setStyleSheet('QPushButton {background-color: #6fcc45}')
+                        name.setStyleSheet('QPushButton {background-color: #6fcc45}')
                     elif j == 7:
-                        self.name.setStyleSheet('QPushButton {background-color: #c4544d}')
+                        name.setStyleSheet('QPushButton {background-color: #c4544d}')
                 elif j == 0 or j == SIZE_FIELD - 1:
                     if i == 3 or i == 11:
-                        self.name.setStyleSheet('QPushButton {background-color: #6fcc45}')
+                        name.setStyleSheet('QPushButton {background-color: #6fcc45}')
                     elif i == 7:
-                        self.name.setStyleSheet('QPushButton {background-color: #c4544d}')
-                self.grid_field.addWidget(self.name, i + 1, j + 1)
+                        name.setStyleSheet('QPushButton {background-color: #c4544d}')
+                self.grid_field.addWidget(name, i + 1, j + 1)
         for i in range(2, 4):
             eval(f'self.name{i + 1}.hide()')
         self.btn_choice = []
@@ -175,12 +194,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.count_player = 2
         # создаем передвижимые кнопки
         for i in range(7):
-            self.name = MovableButton('', self)
+            name = MovableButton('', self)
             # self.name.setMinimumSize(35, 35)
-            self.name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-            self.grid_field.addWidget(self.name, 16, i + 1)
-            self.name.hide()
-            self.btn_choice.append(self.name)
+            name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            name.setStyleSheet('QPushButton {background-color:"white"; color:"black"}')
+            self.grid_field.addWidget(name, 16, i + 1)
+            name.hide()
+            self.btn_choice.append(name)
 
     def player_added(self):
         self.count_player = 0
@@ -293,7 +313,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             position = self.grid_field.getItemPosition(
                 self.grid_field.indexOf(self.btn_letters_of_new_words[i]))
             self.field[position[0] - 1][position[1] - 1] = \
-            self.btn_letters_of_new_words[i].text().split('\n')[0]
+                self.btn_letters_of_new_words[i].text().split('\n')[0]
             letters.append(
                 (position[0] - 1, position[1] - 1,
                  self.btn_letters_of_new_words[i].text().split('\n')[0]))
@@ -353,7 +373,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             position = self.grid_field.getItemPosition(self.grid_field.indexOf(word))
             self.field[position[0] - 1][position[1] - 1] = ''
         for button in self.used_letters:
-            button.setEnabled(True)
+            button.setStyleSheet('QPushButton {background-color:"white"; color:"black"}')
         self.btn_letters_of_new_words.clear()
         self.used_letters.clear()
 
@@ -399,12 +419,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.clear_field()
                 return
         for el in self.btn_letters_of_new_words:
+            # el.setStyleSheet('QPushButton {background-color: #f0f0f0}')
             el.setEnabled(False)
         self.words_used_in_the_game.extend(new_words)
         self.scoring_points(words_buttons)
-        self.used_letters.clear()
         self.btn_letters_of_new_words.clear()
         self.another_player_move()
+        self.used_letters.clear()
 
     def scoring_points(self, new_words_buttons):
         # считет баллы за слова
@@ -439,7 +460,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.skipping_move += 1
         s = [i.text() for i in self.letters_to_replace]
         for changing_letter in self.letters_to_replace:
-            changing_letter.setEnabled(True)
+            changing_letter.setStyleSheet('QPushButton {background-color:"white"; color:"black"}')
             n = random.choice(self.alphabet)
             while n in s:
                 n = random.choice(self.alphabet)
@@ -457,14 +478,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.statusBar().showMessage('')
         self.players[self.queue][0].setStyleSheet('QPushButton {background-color: #f0f0f0}')
         if self.game_over() is False:
-            i = 0
-            for el in self.btn_choice:
-                if el.isEnabled() is False:
-                    el.setEnabled(True)
-                    n = random.choice(self.alphabet)
-                    self.alphabet.remove(n)
-                    self.players[self.queue][2][i] = n
-                i += 1
+            for el in self.used_letters:
+                el.setStyleSheet('QPushButton {background-color:"white"; color:"black"}')
+                n = random.choice(self.alphabet)
+                self.alphabet.remove(n)
+                position = self.grid_field.getItemPosition(self.grid_field.indexOf(el))
+                self.players[self.queue][2][position[1] - 1] = n
             if self.queue < self.count_player - 1:
                 self.queue += 1
             else:
