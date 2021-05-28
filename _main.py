@@ -60,7 +60,6 @@ class ButtonToReplaceTheLetters(QPushButton):
 
     def dropEvent(self, e):
         if type(e.source()) == MovableButton:
-            main_window.start_of_replacement = 1
             e.source().setStyleSheet('QPushButton {background-color: #c6c6ec}')
             # в letters_to_replace хранятся кнопки
             main_window.letters_to_replace.append(e.source())
@@ -119,8 +118,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def initUI(self):
         self.btn_letters_of_new_words = []
         self.words_used_in_the_game = []
-        self.start_of_replacement = 0
         self.statistics.clicked.connect(self.statistic)
+        self.statistics.show()
+        self.new_play.hide()
+        self.new_play.clicked.connect(self.new_play_start)
         self.price_letters = {'А': 1, 'Б': 3, 'В': 2, 'Г': 3, 'Д': 2, 'Е': 1, 'Ж': 5, 'З': 5,
                               'И': 1, 'Й': 2, 'К': 2, 'Л': 2, 'М': 2, 'Н': 1, 'О': 1, 'П': 2,
                               'Р': 2, 'С': 2, 'Т': 2, 'У': 3, 'Ф': 10, 'Х': 5, 'Ц': 10, 'Ч': 5,
@@ -279,10 +280,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.btn_check.hide()
             self.btn_replaced_letters.hide()
             self.replaced_letters.hide()
+            self.new_play.show()
             for el in self.btn_choice:
                 el.hide()
             return True
         return False
+
+    def new_play_start(self):
+        self.statusBar().setStyleSheet("background-color:white;")
+        self.statusBar().showMessage('')
+        for i in range(SIZE_FIELD):
+            for j in range(SIZE_FIELD):
+                button = self.grid_field.itemAtPosition(i + 1, j + 1).widget()
+                button.setText('')
+                button.setEnabled(True)
+        self.alphabet = ['А', 'А', 'А', 'А', 'А', 'А', 'А', 'А', 'А', 'А', 'Б', 'Б', 'Б', 'В', 'В',
+                         'В', 'В', 'В', 'Г', 'Г', 'Г', 'Д', 'Д', 'Д', 'Д', 'Д', 'Е', 'Е', 'Е', 'Е',
+                         'Е', 'Е', 'Е', 'Е', 'Е', 'Ж', 'Ж', 'З', 'З', 'И', 'И', 'И', 'И', 'И', 'И',
+                         'И', 'И', 'Й', 'Й', 'Й', 'Й', 'К', 'К', 'К', 'К', 'К', 'К', 'Л', 'Л', 'Л',
+                         'Л', 'М', 'М', 'М', 'М', 'М', 'Н', 'Н', 'Н', 'Н', 'Н', 'Н', 'Н', 'Н', 'О',
+                         'О', 'О', 'О', 'О', 'О', 'О', 'О', 'О', 'О', 'П', 'П', 'П', 'П', 'П', 'П',
+                         'Р', 'Р', 'Р', 'Р', 'Р', 'Р', 'С', 'С', 'С', 'С', 'С', 'С', 'Т', 'Т', 'Т',
+                         'Т', 'Т', 'У', 'У', 'У', 'Ф', 'Х', 'Х', 'Ц', 'Ч', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы',
+                         'Ы', 'Ь', 'Ь', 'Э', 'Ю', 'Я', 'Я', 'Я']
+        self.field = [['' for _ in range(SIZE_FIELD)] for __ in range(SIZE_FIELD)]
+        self.first_word_created = False
+        self.remember()
+        self.change_bd = 0
+        self.btn_check.show()
+        self.btn_replaced_letters.show()
+        self.replaced_letters.show()
+        self.new_play.hide()
 
     def add_winner_in_bd(self, names_and_points):
         con = sqlite3.connect("scrabble.db")

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'design2.ui'
+# Form implementation generated from reading ui file 'design.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -35,9 +35,6 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.gridLayout.setObjectName("gridLayout")
-        self.number_of_remaining_letters = QtWidgets.QLabel(self.centralwidget)
-        self.number_of_remaining_letters.setObjectName("number_of_remaining_letters")
-        self.gridLayout.addWidget(self.number_of_remaining_letters, 12, 1, 1, 1)
         self.player2 = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -48,17 +45,20 @@ class Ui_MainWindow(object):
         self.player2.setText("")
         self.player2.setObjectName("player2")
         self.gridLayout.addWidget(self.player2, 4, 1, 1, 1)
+        self.number_of_remaining_letters = QtWidgets.QLabel(self.centralwidget)
+        self.number_of_remaining_letters.setObjectName("number_of_remaining_letters")
+        self.gridLayout.addWidget(self.number_of_remaining_letters, 12, 1, 1, 1)
         self.btn_replaced_letters = QtWidgets.QPushButton(self.centralwidget)
         self.btn_replaced_letters.setEnabled(False)
         self.btn_replaced_letters.setObjectName("btn_replaced_letters")
-        self.gridLayout.addWidget(self.btn_replaced_letters, 16, 1, 1, 1)
-        self.btn_check = QtWidgets.QPushButton(self.centralwidget)
-        self.btn_check.setEnabled(False)
-        self.btn_check.setObjectName("btn_check")
-        self.gridLayout.addWidget(self.btn_check, 15, 1, 1, 1)
+        self.gridLayout.addWidget(self.btn_replaced_letters, 17, 1, 1, 1)
         self.statistics = QtWidgets.QPushButton(self.centralwidget)
         self.statistics.setObjectName("statistics")
         self.gridLayout.addWidget(self.statistics, 13, 1, 1, 1)
+        self.btn_check = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_check.setEnabled(False)
+        self.btn_check.setObjectName("btn_check")
+        self.gridLayout.addWidget(self.btn_check, 16, 1, 1, 1)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
         self.formLayout.setObjectName("formLayout")
@@ -143,6 +143,9 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 10, 1, 1, 1)
+        self.new_play = QtWidgets.QPushButton(self.centralwidget)
+        self.new_play.setObjectName("new_play")
+        self.gridLayout.addWidget(self.new_play, 14, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 1, 9, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -159,10 +162,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Эрудит"))
-        self.number_of_remaining_letters.setText(_translate("MainWindow", "Осталось букв: 131"))
+        self.number_of_remaining_letters.setText(_translate("MainWindow", "Осталось букв: 128"))
         self.btn_replaced_letters.setText(_translate("MainWindow", "Заменить"))
-        self.btn_check.setText(_translate("MainWindow", "Проверить"))
         self.statistics.setText(_translate("MainWindow", "Статистика"))
+        self.btn_check.setText(_translate("MainWindow", "Проверить"))
         self.checkBox_1.setText(_translate("MainWindow", "Игрок 1"))
         self.checkBox_2.setText(_translate("MainWindow", "Игрок 2"))
         self.checkBox_3.setText(_translate("MainWindow", "Игрок 3"))
@@ -170,3 +173,4 @@ class Ui_MainWindow(object):
         self.btn_remember.setText(_translate("MainWindow", "Запомнить"))
         self.label.setText(_translate("MainWindow", "Сколько человек будут играть?\n"
 " Представтесь"))
+        self.new_play.setText(_translate("MainWindow", "Новая игра"))

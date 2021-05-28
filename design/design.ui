@@ -42,13 +42,6 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
-      <item row="12" column="1">
-       <widget class="QLabel" name="number_of_remaining_letters">
-        <property name="text">
-         <string>Осталось букв: 131</string>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="1">
        <widget class="QPushButton" name="player2">
         <property name="sizePolicy">
@@ -65,7 +58,14 @@
         </property>
        </widget>
       </item>
-      <item row="16" column="1">
+      <item row="12" column="1">
+       <widget class="QLabel" name="number_of_remaining_letters">
+        <property name="text">
+         <string>Осталось букв: 128</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1">
        <widget class="QPushButton" name="btn_replaced_letters">
         <property name="enabled">
          <bool>false</bool>
@@ -75,20 +75,20 @@
         </property>
        </widget>
       </item>
-      <item row="15" column="1">
+      <item row="13" column="1">
+       <widget class="QPushButton" name="statistics">
+        <property name="text">
+         <string>Статистика</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
        <widget class="QPushButton" name="btn_check">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="text">
          <string>Проверить</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1">
-       <widget class="QPushButton" name="statistics">
-        <property name="text">
-         <string>Статистика</string>
         </property>
        </widget>
       </item>
@@ -260,6 +260,13 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QPushButton" name="new_play">
+        <property name="text">
+         <string>Новая игра</string>
         </property>
        </widget>
       </item>
