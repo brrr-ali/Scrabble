@@ -294,6 +294,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 button = self.grid_field.itemAtPosition(i + 1, j + 1).widget()
                 button.setText('')
                 button.setEnabled(True)
+        self.queue = 0
         self.alphabet = ['А', 'А', 'А', 'А', 'А', 'А', 'А', 'А', 'А', 'А', 'Б', 'Б', 'Б', 'В', 'В',
                          'В', 'В', 'В', 'Г', 'Г', 'Г', 'Д', 'Д', 'Д', 'Д', 'Д', 'Е', 'Е', 'Е', 'Е',
                          'Е', 'Е', 'Е', 'Е', 'Е', 'Ж', 'Ж', 'З', 'З', 'И', 'И', 'И', 'И', 'И', 'И',
