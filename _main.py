@@ -429,8 +429,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         len_buttons = sum(len(el) for el in words_buttons)
         for i in range(len(new_words)):
             if not self.check_the_existence_of_the_word(new_words[i]):
-                self.statusBar().showMessage(f'Слова "{new_words[i]}" '
-                                             f'не существует! Попробуйте снова.')
+                self.statusBar().showMessage(f'О слове "{new_words[i]}" я никогда не слышал'
+                                             f'! Придумайте что-нибудь другое.')
                 self.statusBar().setStyleSheet("background-color:red;")
                 self.clear_field()
                 return
